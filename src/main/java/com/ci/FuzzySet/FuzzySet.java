@@ -2,28 +2,34 @@ package com.ci.FuzzySet;
 
 import lombok.Data;
 
-import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 @Data
 public class FuzzySet<T> {
 
-    private final List<Double> membership;
-    private final List<T> domain;
+    private final Map<T, Double> membership;
 
-    public FuzzySet(List<T> domain, List<Double> membership) {
+    public FuzzySet(Map<T, Double> membership) {
         this.membership = membership;
-        this.domain = domain;
     }
 
-    public FuzzySet(List<T> domain) {
-        this.domain = domain;
-        this.membership = new ArrayList<>(Collections.nCopies(domain.size(), 0.0));
+    public FuzzySet(Set<T> domain) {
+        this.membership = new HashMap<>();
+        for(T d : domain) {
+            membership.put(d, 0.0);
+        }
     }
 
-    public boolean isDomainEqual(FuzzySet<T> r) {
-        return domain.equals(r.getDomain());
+    public Set<T> getDomain() {
+        return membership.keySet();
+    }
+
+    public Double getMembershipValue(T X){
+        return this.membership.get(X) == null ? 0.0 : this.membership.get(X);
     }
 
 }
